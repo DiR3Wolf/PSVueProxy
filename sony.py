@@ -110,21 +110,22 @@ class SONY:
             "X-Requested-With": "com.snei.vue.atv"
         }
 
-        r = requests.get(url, headers=headers, verify=self.verify)
-        device_status = str(r.json()["body"]["status"])
+        # r = requests.get(url, headers=headers, verify=self.verify)
+        # device_status = str(r.json()["body"]["status"])
 
-        print TAG + "Device Status = " + device_status
+        # print TAG + "Device Status = " + device_status
 
         if self.reqPayload != '':
             headers['reauth'] = '1'
             headers['reqPayload'] = self.reqPayload
 
-        if device_status == "UNAUTHORIZED":
-            auth_error = str(r.json()['header']['error']['message'])
-            error_code = str(r.json()['header']['error']['code'])
-            print TAG + "Auth Error : " + auth_error + "(" + error_code + ")"
+        # if device_status == "UNAUTHORIZED":
+        #     auth_error = str(r.json()['header']['error']['message'])
+        #     error_code = str(r.json()['header']['error']['code'])
+        #     print TAG + "Auth Error : " + auth_error + "(" + error_code + ")"
 
-        elif 'reqPayload' in r.headers:
+        r = requests.get(url, headers=headers, verify=self.verify)
+        if 'reqPayload' in r.headers:
             self.reqPayload = str(r.headers['reqPayload'])
             globals.save_setting("reqPayload", self.reqPayload)
             auth_time = r.json()['header']['time_stamp']
